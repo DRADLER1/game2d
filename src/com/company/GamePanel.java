@@ -9,11 +9,17 @@ public class GamePanel extends JPanel implements Runnable {
     //  SCREEN SETTING
     final int originalTileSize =16; // 16X16 tile
     final int scale = 3;
-    public final int tileSize = originalTileSize * scale; // 48X48 tile
-    public final int maxScreenCol = 16;
-    public final int maxScreenRow = 12;
-    public final int screenWidth = tileSize*maxScreenCol; //768 pixel
-    public final int screenHieght = tileSize*maxScreenRow;
+    public  int tileSize = originalTileSize * scale; // 48X48 tile
+    public  int maxScreenCol = 16;
+    public  int maxScreenRow = 12;
+    public  int screenWidth = tileSize*maxScreenCol; //768 pixel
+    public  int screenHieght = tileSize*maxScreenRow;
+
+    //WORLD SETTINGS
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
 
     // FPS
     int FPS = 60;
@@ -21,11 +27,11 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileM = new TileManager(this);
 
 
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler keyH = new KeyHandler(this);
     Thread gameThread;
 
     //entity player
-    Player player = new Player(this,keyH);
+    public Player player = new Player(this,keyH);
     // Set players default position
 
     public GamePanel() {
@@ -34,6 +40,28 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+    //For zooming in and out
+
+    public void zoominout(int i){
+        int oldWorldWidth = tileSize+maxWorldCol;
+
+        tileSize=tileSize+i;
+
+        int newWorldWidth = tileSize+maxWorldCol;
+
+        player.speed=(double)newWorldWidth/600;
+
+        double multiplier = (double)newWorldWidth/oldWorldWidth;
+
+        System.out.println("tileSize: "+tileSize);
+        System.out.println("worldWidth: "+newWorldWidth);
+        System.out.println("player worldx: "+ player.worldX);
+
+        double newplayerWorldX = player.worldX + multiplier;
+        double newplayerWorldY = player.worldY + multiplier;
+
+
     }
     public void startGameThread(){
         gameThread = new Thread(this);
