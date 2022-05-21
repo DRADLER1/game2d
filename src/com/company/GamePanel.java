@@ -1,5 +1,6 @@
 package com.company;
 import entity.Player;
+import object.SuperObject;
 import tile.TileManager;
 
 import javax.swing.JPanel;
@@ -27,12 +28,17 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileM = new TileManager(this);
 
 
-    KeyHandler keyH = new KeyHandler(this);
+    KeyHandler keyH = new KeyHandler();
     Thread gameThread;
+    public CollisionChecker cChecker = new CollisionChecker(this);
+    public AssetSetter aSetter = new AssetSetter(this);
 
     //entity player
     public Player player = new Player(this,keyH);
     // Set players default position
+
+    // creating objects
+    public SuperObject obj[] = new SuperObject[10];
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHieght));
@@ -41,28 +47,11 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
     }
-    //For zooming in and out
 
-    public void zoominout(int i){
-        int oldWorldWidth = tileSize+maxWorldCol;
-
-        tileSize=tileSize+i;
-
-        int newWorldWidth = tileSize+maxWorldCol;
-
-        player.speed=(double)newWorldWidth/600;
-
-        double multiplier = (double)newWorldWidth/oldWorldWidth;
-
-        System.out.println("tileSize: "+tileSize);
-        System.out.println("worldWidth: "+newWorldWidth);
-        System.out.println("player worldx: "+ player.worldX);
-
-        double newplayerWorldX = player.worldX + multiplier;
-        double newplayerWorldY = player.worldY + multiplier;
-
-
+    public void setupGame(){
+         aSetter.setObject();
     }
+
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
@@ -110,8 +99,17 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-
+        //tile
         tileM.draw(g2);
+
+        //object
+        for(int i = 0;i<obj.length;i++){
+            if(obj[i] != null){
+                obj[i].draw(g2,this);
+            }
+        }
+
+        //player
         player.draw(g2);
 
         g2.dispose();
