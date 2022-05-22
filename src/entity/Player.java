@@ -9,12 +9,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Player extends Entity {
+    public String hasKey;
     GamePanel gp;
     KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
-    int hasKey = 0;
+      int HasKey = 0;
     public Player(GamePanel gp ,KeyHandler keyH){
         this.gp = gp;
         this.keyH = keyH;
@@ -99,16 +100,32 @@ public class Player extends Entity {
            String objectName = gp.obj[i].name;
            switch(objectName){
                case "Key":
-                   hasKey++;
+                   gp.playSE(1);
+                   HasKey++;
                    gp.obj[i] = null;
-                   System.out.println("Key:"+hasKey);
+                   gp.ui.showMessage("You got a key!!");
                    break;
                case "Door":
-                   if(hasKey >0){
+                   gp.playSE(3);
+                   if(HasKey >0){
                        gp.obj[i] = null;
-                       hasKey--;
+                       HasKey--;
+                       gp.ui.showMessage("You opened the door!!");
                    }
-                   System.out.println("Key:"+hasKey);
+                   else{
+                       gp.ui.showMessage("You need to collect a key to open the door");
+                   }
+                   break;
+               case "Boots":
+                   gp.playSE(2);
+                   speed += 1;
+                   gp.obj[i] = null;
+                   gp.ui.showMessage("Speed UP!!");
+                   break;
+               case "Chest":
+                   gp.ui.gameFinished = true;
+                   gp.stopMusic();
+                   gp.playSE(4);
                    break;
            }
         }
