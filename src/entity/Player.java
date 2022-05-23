@@ -106,7 +106,7 @@ public class Player extends Entity {
 
         if(i != 999){
            String objectName = gp.obj[i].name;
-           switch(objectName){
+           switch(objectName) {
                case "Key":
                    gp.playSE(1);
                    HasKey++;
@@ -115,12 +115,11 @@ public class Player extends Entity {
                    break;
                case "Door":
                    gp.playSE(3);
-                   if(HasKey >0){
+                   if (HasKey > 0) {
                        gp.obj[i] = null;
                        HasKey--;
                        gp.ui.showMessage("You opened the door!!");
-                   }
-                   else{
+                   } else {
                        gp.ui.showMessage("You need to collect a key to open the door");
                    }
                    break;
