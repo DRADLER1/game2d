@@ -1,5 +1,4 @@
 package com.company;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -25,7 +24,7 @@ public class UI {
 
         arial_40 = new Font("Arial", Font.PLAIN, 40);
         arial_80B = new Font("Arial", Font.BOLD, 80);
-        OBJ_Key key = new OBJ_Key();
+        OBJ_Key key = new OBJ_Key(gp);
         keyImage = key.image;
 
     }
@@ -70,7 +69,7 @@ public class UI {
             g2.setFont(arial_40);
             g2.setColor(Color.WHITE);
             g2.drawImage(keyImage, gp.tileSize/2, gp.tileSize/2, gp.tileSize, gp.tileSize, null);
-            g2.drawString("key = "+ gp.player.hasKey, 74, 65);
+            g2.drawString("key = "+ gp.player.HasKey, 74, 65);
 
             //Time
             playTime +=(double)1/60;

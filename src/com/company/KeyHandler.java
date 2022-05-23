@@ -5,6 +5,8 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     public boolean upPressed , downPressed , leftPressed, rightPressed;
+    //debug
+    boolean checkDrawTime = false;
 
 
 
@@ -26,6 +28,16 @@ public class KeyHandler implements KeyListener {
 
         }  if (code == KeyEvent.VK_D){
             rightPressed = true ;
+
+        }
+
+        // short cut key to turn debug function on-off
+        if (code == KeyEvent.VK_T){
+            if(checkDrawTime == false){
+                checkDrawTime = true;
+            }else if(checkDrawTime == true){
+                checkDrawTime = false;
+            }
 
         }
 
