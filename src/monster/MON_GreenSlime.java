@@ -26,14 +26,14 @@ public class MON_GreenSlime extends Entity {
         getImage();
     }
     public void getImage() {
-        up1 = setup("/monster/greenslime_down_1.png");
-        up2 = setup("/monster/greenSlime_down_2.png");
-        down1 = setup("/monster/greenslime_down_1.png");
-        down2 = setup("/monster/greenSlime_down_2.png");
-        left1 = setup("/monster/greenslime_down_1.png");
-        left2 = setup("/monster/greenSlime_down_2.png");
-        right1 = setup("/monster/greenslime_down_1.png");
-        right2 = setup("/monster/greenSlime_down_2.png");
+        up1 = setup("/monster/greenslime_down_1");
+        up2 = setup("/monster/greenSlime_down_2");
+        down1 = setup("/monster/greenslime_down_1");
+        down2 = setup("/monster/greenSlime_down_2");
+        left1 = setup("/monster/greenslime_down_1");
+        left2 = setup("/monster/greenSlime_down_2");
+        right1 = setup("/monster/greenslime_down_1");
+        right2 = setup("/monster/greenSlime_down_2");
     }
     public void setAction() {
 

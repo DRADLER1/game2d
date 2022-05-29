@@ -133,7 +133,7 @@ public class CollisionChecker {
     }
     public boolean checkPlayer(Entity entity){
 
-        boolean conctactPlayer = false;
+        boolean contactPlayer = false;
 
         // Get entity's solid area position
         entity.solidArea.x = entity.worldX + entity.solidArea.x;
@@ -150,7 +150,7 @@ public class CollisionChecker {
                 }
         if (entity.solidArea.intersects(gp.player.solidArea)) {
             entity.collisionOn = true;
-            contactPlayer = true;
+                contactPlayer = true;
 
         }
 
