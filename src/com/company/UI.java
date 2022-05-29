@@ -1,14 +1,18 @@
 package com.company;
-import java.awt.*;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Time;
-import java.text.DecimalFormat;
+import java.awt.BasicStroke;
+import java.awt.RenderingHints;
 
+import entity.Entity;
 import object.OBJ_Heart;
-import object.OBJ_Key;
-import object.SuperObject;
+
 
 public class UI {
     GamePanel gp;
@@ -42,7 +46,7 @@ public class UI {
         }
 
         // create hud object
-        SuperObject heart = new OBJ_Heart(gp);
+        Entity heart = new OBJ_Heart(gp);
         heart_full = heart.image;
         heart_half = heart.image2;
         heart_blank = heart.image3;
