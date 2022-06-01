@@ -48,6 +48,22 @@ public class Entity {
     public int type; // 0 = player, 1 = npc, 2 = monster;
     public int maxLife;
     public int life;
+    public int level;
+    public int strength;
+    public int dexterity;
+    public int attack;
+    public int defense;
+    public int exp;
+    public int nextLevelExp;
+    public int coin;
+    public Entity currentWeapon;
+    public Entity currentShield;
+
+    //item attributes
+    public int attackValue;
+    public int defenseValue;
+
+
 
     public Entity(GamePanel gp){
         this.gp = gp;
@@ -90,8 +106,14 @@ public class Entity {
         if(this.type == 2 && contactPlayer == true) {
             if(gp.player.invincible == false) {
                 //we can give damage
-            gp.player.life -= 1;
-            gp.player.invincible = true;
+                gp.playSE(6);
+
+                int damage=attack-gp.player.defense;
+                if (damage<0){
+                    damage=0;
+                }
+                gp.player.life -= damage;
+                gp.player.invincible = true;
             }
         }
         if(collisionOn == false){
