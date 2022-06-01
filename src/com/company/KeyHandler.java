@@ -112,9 +112,6 @@ public class KeyHandler implements KeyListener {
 
         }
 
-
-
-
     }
     public void playState(int code) {
             if (code == KeyEvent.VK_W) {
@@ -174,16 +171,6 @@ public class KeyHandler implements KeyListener {
 
             }
     }
-
-
-
-
-
-
-
-
-
-
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();

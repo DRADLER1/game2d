@@ -76,7 +76,7 @@ public class Player extends Entity {
         worldY = gp.tileSize * 21;
         //worldX = gp.tileSize * 10;
         //worldY = gp.tileSize * 13;
-        speed = 5;
+        speed = 10;
         direction = "down";
 
         //player status
@@ -139,23 +139,14 @@ public class Player extends Entity {
             //Check Event
             gp.eHandler.checkEvent();
 
-            gp.keyH.enterPressed = false;
 
             //if collision is false player can move
             if (collisionOn == false && keyH.enterPressed == false) {
                 switch (direction) {
-                    case "up":
-                        worldY -= speed;
-                        break;
-                    case "down":
-                        worldY += speed;
-                        break;
-                    case "left":
-                        worldX -= speed;
-                        break;
-                    case "right":
-                        worldX += speed;
-                        break;
+                    case "up": worldY -= speed;break;
+                    case "down": worldY += speed;break;
+                    case "left": worldX -= speed;break;
+                    case "right": worldX += speed;break;
                 }
             }
 
@@ -255,9 +246,7 @@ public class Player extends Entity {
                 attackCanceled = true;
                 gp.gameState = gp.dialogueState;
                 gp.npc[i].speak();
-
             }
-
         }
     }
 
@@ -288,8 +277,6 @@ public class Player extends Entity {
                 if (damage < 0) {
                     damage = 0;
                 }
-
-
                 gp.monster[i].life -= damage;
                 gp.ui.addMessage(damage + "damage!");
 
