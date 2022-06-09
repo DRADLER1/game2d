@@ -154,12 +154,11 @@ public class KeyHandler implements KeyListener {
     }
     public void pauseState(int code) {
             if (code == KeyEvent.VK_P) {
-                gp.gameState = gp.pauseState;
-
-
+                gp.gameState = gp.playState;
             }
 
-        }
+
+    }
     public void dialogueState(int code) {
             if (code == KeyEvent.VK_ENTER) {
                 gp.gameState = gp.playState;
@@ -181,19 +180,19 @@ public class KeyHandler implements KeyListener {
             if(code == KeyEvent.VK_A){
                 if(gp.ui.slotCol!= 0) {
                     gp.ui.slotCol--;
-                    gp.playSE(8);
+                    gp.playSE(9);
                 }
             }
             if(code == KeyEvent.VK_S){
                 if(gp.ui.slotRow != 3) {
                     gp.ui.slotRow++;
-                    gp.playSE(8);
+                    gp.playSE(9);
                 }
             }
             if(code == KeyEvent.VK_D){
                 if(gp.ui.slotCol != 4) {
                     gp.ui.slotCol++;
-                    gp.playSE(8);
+                    gp.playSE(9 );
                 }
             }
             if(code == KeyEvent.VK_ENTER){
