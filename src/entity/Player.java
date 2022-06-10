@@ -4,9 +4,11 @@ import com.company.GamePanel;
 import entity.Entity;
 import com.company.KeyHandler;
 import com.company.UtilityTool;
+import object.OBJ_Fireball;
 import object.OBJ_Key;
 import object.OBJ_Shield_Wood;
 import object.OBJ_Sword_Normal;
+import object.OBJ_Rock;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -102,6 +104,9 @@ public class Player extends Entity {
         level = 1;
         maxLife = 6;
         life = maxLife;
+        ammo=10;
+        maxMana=4;
+        mana=maxMana;
         strength = 1; //more strength , more damage
         dexterity = 1; // more dexterity,less damage he recieves
         exp = 0;
@@ -109,6 +114,8 @@ public class Player extends Entity {
         coin = 0;
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
+        projectile=new OBJ_Fireball(gp);
+        projectile=new OBJ_Rock(gp);
         attack = getAttack(); //decided by strength and weapon
         defense = getDefense(); //decided by dexterity
 
@@ -199,6 +206,21 @@ public class Player extends Entity {
 
 
         }
+
+        if (gp.keyH.shotKeyPressed==true && projectile.alive==false && shotAvailableCounter==30
+        && projectile.haveResource(this)==true){
+            //set default cordinates,directions and user
+            projectile.set(worldX,worldY,direction,true,this);
+
+            //substract the cost (mana ammo etc)
+            projectile.substractResource(this);
+
+            //add it to list
+            gp.projectileList.add(projectile);
+            shotAvailableCounter=0;
+
+            gp.playSE(10);
+        }
         //This needs tobe outside of the key ifstatement!
         if (invincible == true) {
             invincibleCounter++;
@@ -206,6 +228,9 @@ public class Player extends Entity {
                 invincible = false;
                 invincibleCounter = 0;
             }
+        }
+        if (shotAvailableCounter<30){
+            shotAvailableCounter++;
         }
     }
 
@@ -244,7 +269,7 @@ public class Player extends Entity {
             solidArea.height = attackArea.height;
             // check monster collision with the weapon attackArea
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-            damageMonster(monsterIndex);
+            damageMonster(monsterIndex,attack);
             //After checking collision,restore the original data
             worldX = currentWorldX;
             worldY = currentWorldY;
@@ -296,7 +321,7 @@ public class Player extends Entity {
 
         if (i != 999) {
 
-            if (invincible == false) {
+            if (invincible == false && gp.monster[i].dying==false) {
                 gp.playSE(6);
 
                 int damage = gp.monster[i].attack - defense;
@@ -310,7 +335,7 @@ public class Player extends Entity {
         }
     }
 
-    public void damageMonster(int i) {
+    public void damageMonster(int i,int attack) {
         if (i != 999) {
             if (gp.monster[i].invincible == false) {
                 gp.playSE(5);
