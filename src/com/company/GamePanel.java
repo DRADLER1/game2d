@@ -3,6 +3,7 @@ package com.company;
 import entity.Entity;
 import entity.Player;
 import tile.TileManager;
+import tile_interactive.interactiveTile;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -44,11 +45,12 @@ public class GamePanel extends JPanel implements Runnable {
     // Set players default position
 
     // creating objects
-    public Entity obj[] = new Entity [10];
+    public Entity obj[] = new Entity [20];
 
     //NPC object
     public Entity npc[] = new Entity[10];
     public Entity monster[] = new Entity[20];
+    public interactiveTile iTile[] = new interactiveTile[50];
     public ArrayList<Entity> projectileList = new ArrayList<>();
     ArrayList<Entity> entityList = new ArrayList<>();
     //Game state
@@ -74,6 +76,7 @@ public class GamePanel extends JPanel implements Runnable {
         aSetter.setObject();
         aSetter.setNPC();
         aSetter.setMonster();
+        aSetter.setinteractiveTile();
 
        // playMusic(0);
         gameState = titleState;
@@ -136,6 +139,7 @@ public class GamePanel extends JPanel implements Runnable {
                         monster[i].update();
                     }
                     if(monster[i].alive == false){
+                        monster[i].checkDrop();
                         monster[i] = null;
                     }
 
@@ -151,6 +155,11 @@ public class GamePanel extends JPanel implements Runnable {
                     }
 
                 }
+            }
+        }
+        for(int i = 0; i < iTile.length; i++) {
+            if(iTile[i] != null) {
+                iTile[i].update();
             }
         }
             if (gameState == pauseState) {
@@ -177,6 +186,13 @@ public class GamePanel extends JPanel implements Runnable {
         else {
             //tile
             tileM.draw(g2);
+
+            //Interactive Tile
+            for(int i =0; i < iTile.length; i++) {
+                if(iTile[i] !=null) {
+                    iTile[i].draw(g2);
+                }
+            }
 
             // add entities to the list
             entityList.add(player);

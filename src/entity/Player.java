@@ -4,11 +4,7 @@ import com.company.GamePanel;
 import entity.Entity;
 import com.company.KeyHandler;
 import com.company.UtilityTool;
-import object.OBJ_Fireball;
-import object.OBJ_Key;
-import object.OBJ_Shield_Wood;
-import object.OBJ_Sword_Normal;
-import object.OBJ_Rock;
+import object.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -112,7 +108,8 @@ public class Player extends Entity {
         exp = 0;
         nextLevelExp = 5;
         coin = 0;
-        currentWeapon = new OBJ_Sword_Normal(gp);
+ //       currentWeapon = new OBJ_Sword_Normal(gp);
+        currentWeapon = new OBJ_Axe(gp);
         currentShield = new OBJ_Shield_Wood(gp);
         projectile=new OBJ_Fireball(gp);
 //        projectile=new OBJ_Rock(gp);
@@ -170,6 +167,9 @@ public class Player extends Entity {
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
 
+            //Check Interactive Tile Collision
+            int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
+
             //Check Event
             gp.eHandler.checkEvent();
 
@@ -177,10 +177,18 @@ public class Player extends Entity {
             //if collision is false player can move
             if (collisionOn == false && keyH.enterPressed == false) {
                 switch (direction) {
-                    case "up": worldY -= speed;break;
-                    case "down": worldY += speed;break;
-                    case "left": worldX -= speed;break;
-                    case "right": worldX += speed;break;
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
                 }
             }
 
@@ -207,21 +215,21 @@ public class Player extends Entity {
 
         }
 
-        if (gp.keyH.shotKeyPressed==true && projectile.alive==false && shotAvailableCounter==30
-        && projectile.haveResource(this)==true){
+        if (gp.keyH.shotKeyPressed == true && projectile.alive == false && shotAvailableCounter == 30
+                && projectile.haveResource(this) == true) {
             //set default cordinates,directions and user
-            projectile.set(worldX,worldY,direction,true,this);
+            projectile.set(worldX, worldY, direction, true, this);
 
             //substract the cost (mana ammo etc)
             projectile.substractResource(this);
 
             //add it to list
             gp.projectileList.add(projectile);
-            shotAvailableCounter=0;
+            shotAvailableCounter = 0;
 
             gp.playSE(10);
         }
-        //This needs tobe outside of the key ifstatement!
+        //This needs to be outside of the key if statement!
         if (invincible == true) {
             invincibleCounter++;
             if (invincibleCounter > 60) {
@@ -229,10 +237,17 @@ public class Player extends Entity {
                 invincibleCounter = 0;
             }
         }
-        if (shotAvailableCounter<30){
+        if (shotAvailableCounter < 30) {
             shotAvailableCounter++;
         }
+        if (life > maxLife) {
+            life = maxLife;
+        }
+        if (mana > maxMana) {
+            mana = maxMana;
+        }
     }
+
 
     //attcking animations
     public void attacking() {
@@ -270,6 +285,9 @@ public class Player extends Entity {
             // check monster collision with the weapon attackArea
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             damageMonster(monsterIndex,attack);
+
+            int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
+            damageinteractiveTile(iTileIndex);
             //After checking collision,restore the original data
             worldX = currentWorldX;
             worldY = currentWorldY;
@@ -288,23 +306,31 @@ public class Player extends Entity {
 
         if (i != 999) {
 
-            String text;
+            //Pickup Only Items
+            if(gp.obj[i].type == type_pickupOnly) {
 
-            if(inventory.size() != maxInventorySize){
-
-                inventory.add(gp.obj[i]);
-                gp.playSE(1);
-                text = "Got a "+ gp.obj[i].name + "!";
-
+                gp.obj[i].use(this);
+                gp.obj[i] = null;
             }
+
+            //Inventory Items
             else{
-                text = "You cannot carry any more!";
+                String text;
+
+                if(inventory.size() != maxInventorySize){
+
+                    inventory.add(gp.obj[i]);
+                    gp.playSE(1);
+                    text = "Got a "+ gp.obj[i].name + "!";
+
+                }
+                else{
+                    text = "You cannot carry any more!";
+                }
+                gp.ui.addMessage(text);
+                gp.obj[i] = null;
             }
-            gp.ui.addMessage(text);
-            gp.obj[i] = null;
-
         }
-
     }
 
     public void interactNPC(int i) {
@@ -361,6 +387,14 @@ public class Player extends Entity {
             }
         }
 
+    }
+    public void damageinteractiveTile(int i) {
+
+        if(i != 999 && gp.iTile[i].destructible == true && gp.iTile[i].isCorrectItem(this) == true) {
+
+            gp.iTile[i].playSE();
+            gp.iTile[i] = gp.iTile[i].getDestroyedForm();
+        }
     }
 
     public void checkLevelUp() {
