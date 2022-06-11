@@ -124,7 +124,7 @@ public class Entity {
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
         if(this.type == type_monster && contactPlayer == true) {
-      damagePlayer(attack);
+             damagePlayer(attack);
         }
         if(collisionOn == false){
             switch (direction){

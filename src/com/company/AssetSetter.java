@@ -1,6 +1,6 @@
 package com.company;
 
-import monster.MON_GreenSlime;
+import entity.monster.MON_GreenSlime;
 import entity.NPC_OldMan;
 import object.OBJ_Axe;
 import object.OBJ_Key;

@@ -115,7 +115,7 @@ public class Player extends Entity {
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
         projectile=new OBJ_Fireball(gp);
-        projectile=new OBJ_Rock(gp);
+//        projectile=new OBJ_Rock(gp);
         attack = getAttack(); //decided by strength and weapon
         defense = getDefense(); //decided by dexterity
 
