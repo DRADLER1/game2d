@@ -30,6 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
     int screenHieght2 = screenHieght;
     BufferedImage tempScreen;
     Graphics2D g2;
+    public boolean fullScreenOn = false;
 
 
 
@@ -46,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
     public AssetSetter aSetter = new AssetSetter(this);
     public UI ui = new UI(this);
     public EventHandler eHandler = new EventHandler(this);
+    Config config = new Config(this);
     Thread gameThread;
 
     //entity player
@@ -71,6 +73,8 @@ public class GamePanel extends JPanel implements Runnable {
     public int characterState = 4;
     public int optionState = 5;
 
+    public final int gameOverState = 6;
+
 
 
 
@@ -94,8 +98,31 @@ public class GamePanel extends JPanel implements Runnable {
 
         tempScreen = new BufferedImage(screenWidth,screenHieght,BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics(); //whatever will be drawn it will record it
+        if(fullScreenOn == true) {
+            setFullScreen();
+        }
+    }
 
-//        setFullScreen();
+    public void retry(){
+
+        player.setDefaultPositions();
+        player.restoreLifeAndMan();
+        aSetter.setNPC();
+        aSetter.setMonster();
+
+    }
+    public void restart(){
+
+        player.setDefaultValues();
+        player.setDefaultPositions();
+        player.restoreLifeAndMan();
+        player.setItems();
+        aSetter.setObject();
+        aSetter.setNPC();
+        aSetter.setMonster();
+        aSetter.setinteractiveTile();
+
+
     }
     public void setFullScreen(){
         //GET LOCAL SCREEN DEVICE

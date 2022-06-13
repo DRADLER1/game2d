@@ -49,6 +49,10 @@ public class KeyHandler implements KeyListener {
         else if (gp.gameState == gp.optionState) {
             optionsState(code);
         }
+        //GAME OVER STATE
+        else if (gp.gameState == gp.gameOverState) {
+            gameOverState(code);
+        }
     }
     public void titleState(int code) {
 
@@ -216,7 +220,88 @@ public class KeyHandler implements KeyListener {
             enterPressed = true;
         }
 
+        int maxCommandNum = 0;
+        switch(gp.ui.subState){
+            case 0:maxCommandNum = 5; break;
+            case 3:maxCommandNum = 1; break;
 
+        }
+        if(code == KeyEvent.VK_W){
+            gp.ui.commandNum--;
+            gp.playSE(9);
+            if(gp.ui.commandNum < 0){
+                gp.ui.commandNum = maxCommandNum;
+            }
+        }
+        if(code == KeyEvent.VK_S){
+            gp.ui.commandNum++;
+            gp.playSE(9);
+            if(gp.ui.commandNum > maxCommandNum){
+                gp.ui.commandNum = 0;
+            }
+
+        }
+        if(code == KeyEvent.VK_A){
+            if(gp.ui.subState == 0){
+                if(gp.ui.commandNum == 1 && gp.music.volumeScale > 0){
+                    gp.music.volumeScale--;
+                    gp.music.checkVolume();
+                    gp.playSE(9);
+
+                }
+                if(gp.ui.commandNum == 2 && gp.se.volumeScale > 0){
+                        gp.se.volumeScale--;
+                        gp.playSE(9);
+
+                }
+
+            }
+        }
+        if(code == KeyEvent.VK_D) {
+            if(gp.ui.subState == 0){
+                if(gp.ui.commandNum == 1 && gp.music.volumeScale < 5){
+                    gp.music.volumeScale++;
+                    gp.music.checkVolume();
+                    gp.playSE(9);
+
+                }
+                if(gp.ui.commandNum == 2 && gp.se.volumeScale < 5){
+                    gp.se.volumeScale++;
+                    gp.playSE(9);
+
+                }
+
+            }
+
+        }
+    }
+    public void gameOverState(int code){
+
+        if(code == KeyEvent.VK_W){
+            gp.ui.commandNum--;
+            if(gp.ui.commandNum < 0){
+                gp.ui.commandNum = 1;
+
+            }
+            gp.playSE(9);
+        }
+        if(code == KeyEvent.VK_S){
+            gp.ui.commandNum++;
+            if(gp.ui.commandNum > 1){
+                gp.ui.commandNum = 0;
+
+            }
+            gp.playSE(9);
+        }
+        if(code == KeyEvent.VK_ENTER){
+            if(gp.ui.commandNum == 0){
+                gp.gameState = gp.playState;
+                gp.retry();
+            } else if (gp.ui.commandNum == 1) {
+                gp.gameState = gp.titleState;
+                gp.restart();
+            }
+        }
     }
     @Override
     public void keyReleased(KeyEvent e) {
