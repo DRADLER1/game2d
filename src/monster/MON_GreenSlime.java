@@ -1,4 +1,4 @@
-package entity.monster;
+package monster;
 
 import com.company.GamePanel;
 import object.OBJ_Coin_Bronze;

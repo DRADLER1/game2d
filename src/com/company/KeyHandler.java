@@ -44,10 +44,14 @@ public class KeyHandler implements KeyListener {
         //character state
         else if (gp.gameState == gp.characterState) {
             characterState(code);
-     }
+        }
+        //OPTION STATE
+        else if (gp.gameState == gp.optionState) {
+            optionsState(code);
+        }
     }
     public void titleState(int code) {
-        if (gp.ui.titleScreenState == 0) {
+
             if (code == KeyEvent.VK_W) {
                 gp.ui.commandNum--;
                 if (gp.ui.commandNum < 0) {
@@ -62,8 +66,8 @@ public class KeyHandler implements KeyListener {
             }
             if (code == KeyEvent.VK_ENTER) {
                 if (gp.ui.commandNum == 0) {
-                    gp.ui.titleScreenState = 1;
-
+                    gp.gameState = gp.playState;
+                    gp.playMusic(0);
                 }
                 if (gp.ui.commandNum == 1) {
 
@@ -72,45 +76,45 @@ public class KeyHandler implements KeyListener {
                     System.exit(0);
                 }
             }
-        }
-        else if(gp.ui.titleScreenState == 1){
-            if (code == KeyEvent.VK_W){
-                gp.ui.commandNum--;
-                if(gp.ui.commandNum < 0){
-                    gp.ui.commandNum = 3;
-                }
-            }
-            if (code == KeyEvent.VK_S){
-                gp.ui.commandNum++;
-                if(gp.ui.commandNum > 3){
-                    gp.ui.commandNum = 0;
-                }
-            }
-            if(code == KeyEvent.VK_ENTER){
-                if(gp.ui.commandNum == 0){
-                    System.out.println("Do some easy stuff!");
-                    gp.gameState = gp.playState;
-                    gp.playMusic(0);
-                }
-                if(gp.ui.commandNum == 1){
-                    System.out.println("Do some medium stuff!");
-                    gp.gameState = gp.playState;
-                    gp.playMusic(0);
 
-                }
-                if(gp.ui.commandNum == 2){
-                    System.out.println("Do some difficult stuff!");
-                    gp.gameState = gp.playState;
-                    gp.playMusic(0);
-
-                }
-                if(gp.ui.commandNum == 3){
-                    gp.ui.titleScreenState = 0;
-
-                }
-            }
-
-        }
+//        else if(gp.ui.titleScreenState == 1){
+//            if (code == KeyEvent.VK_W){
+//                gp.ui.commandNum--;
+//                if(gp.ui.commandNum < 0){
+//                    gp.ui.commandNum = 3;
+//                }
+//            }
+//            if (code == KeyEvent.VK_S){
+//                gp.ui.commandNum++;
+//                if(gp.ui.commandNum > 3){
+//                    gp.ui.commandNum = 0;
+//                }
+//            }
+//            if(code == KeyEvent.VK_ENTER){
+//                if(gp.ui.commandNum == 0){
+//                    System.out.println("Do some easy stuff!");
+//                    gp.gameState = gp.playState;
+//                    gp.playMusic(0);
+//                }
+//                if(gp.ui.commandNum == 1){
+//                    System.out.println("Do some medium stuff!");
+//                    gp.gameState = gp.playState;
+//                    gp.playMusic(0);
+//
+//                }
+//                if(gp.ui.commandNum == 2){
+//                    System.out.println("Do some difficult stuff!");
+//                    gp.gameState = gp.playState;
+//                    gp.playMusic(0);
+//
+//                }
+//                if(gp.ui.commandNum == 3){
+//                    gp.ui.titleScreenState = 0;
+//
+//                }
+//            }
+//
+//        }
 
     }
     public void playState(int code) {
@@ -143,12 +147,9 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_F){
                 shotKeyPressed = true;
             }
-
-
-
-
-
-
+            if (code == KeyEvent.VK_ESCAPE){
+                gp.gameState = gp.optionState;
+            }
             // short cut key to turn debug function on-off
             if (code == KeyEvent.VK_T) {
                 if (checkDrawTime == false) {
@@ -205,6 +206,16 @@ public class KeyHandler implements KeyListener {
             if(code == KeyEvent.VK_ENTER){
                 gp.player.selectItem();
             }
+
+    }
+    public void optionsState(int code){
+        if(code == KeyEvent.VK_ESCAPE){
+            gp.gameState = gp.playState;
+        }
+        if(code == KeyEvent.VK_ENTER){
+            enterPressed = true;
+        }
+
 
     }
     @Override

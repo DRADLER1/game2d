@@ -1,6 +1,6 @@
 package com.company;
 
-import entity.monster.MON_GreenSlime;
+import monster.MON_GreenSlime;
 import entity.NPC_OldMan;
 import object.*;
 import tile_interactive.IT_DryTree;
@@ -97,9 +97,9 @@ public class AssetSetter {
         gp.iTile[i] = new IT_DryTree(gp,32,12);i++;
         gp.iTile[i] = new IT_DryTree(gp,33,12);i++;
 
-        gp.iTile[i] = new IT_DryTree(gp,30,20);i++;
-        gp.iTile[i] = new IT_DryTree(gp,30,21);i++;
-        gp.iTile[i] = new IT_DryTree(gp,30,22);i++;
+        gp.iTile[i] = new IT_DryTree(gp,34,20);i++;
+        gp.iTile[i] = new IT_DryTree(gp,34,21);i++;
+        gp.iTile[i] = new IT_DryTree(gp,34,22);i++;
         gp.iTile[i] = new IT_DryTree(gp,20,20);i++;
         gp.iTile[i] = new IT_DryTree(gp,20,21);i++;
         gp.iTile[i] = new IT_DryTree(gp,20,22);i++;

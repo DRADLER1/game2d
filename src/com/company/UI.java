@@ -31,9 +31,10 @@ public class UI {
     public boolean gameFinished = false;
     public String currentDialogue = "";
     public int commandNum = 0;
-    public int titleScreenState = 0;// 0: the first screen, 1: the second screen
+//    public int titleScreenState = 0;// 0: the first screen, 1: the second screen
     public int slotCol = 0;
     public int slotRow = 0;
+    int subState  = 0;
 
 
 
@@ -97,6 +98,9 @@ public class UI {
         if (gp.gameState==gp.characterState){
             drawCharacterScreen();
             drawInventory();
+        }
+        if (gp.gameState==gp.optionState){
+            drawOptionsScreen();
         }
     }
     public void drawPlayerLife() {
@@ -177,7 +181,7 @@ public class UI {
 
     public void drawTitleScreen(){
 
-        if(titleScreenState == 0){
+//        if(titleScreenState == 0){
             g2.setColor(new Color(0, 0, 0));
             g2.fillRect(0, 0, gp.screenWidth, gp.screenHieght);
 
@@ -226,49 +230,49 @@ public class UI {
                 g2.drawString(">", x-gp.tileSize, y);
             }
 
-        }
-        else if(titleScreenState == 1){
-
-            g2.setColor(Color.white);
-            g2.setFont(g2.getFont().deriveFont(42F));
-
-            String text = "DIFFICULTY!";
-            int x = getXforCenteredText(text);
-            int y = gp.tileSize*3;
-            g2.drawString(text, x, y);
-
-            text = "Easy";
-            x = getXforCenteredText(text);
-            y+= gp.tileSize*3;
-            g2.drawString(text, x, y);
-            if(commandNum==0){
-                g2.drawString(">", x-gp.tileSize, y);
-            }
-
-            text = "Medium";
-            x = getXforCenteredText(text);
-            y+= gp.tileSize;
-            g2.drawString(text, x, y);
-            if(commandNum==1){
-                g2.drawString(">", x-gp.tileSize, y);
-            }
-
-            text = "Difficult";
-            x = getXforCenteredText(text);
-            y+= gp.tileSize;
-            g2.drawString(text, x, y);
-            if(commandNum==2){
-                g2.drawString(">", x-gp.tileSize, y);
-            }
-
-            text = "Back";
-            x = getXforCenteredText(text);
-            y+= gp.tileSize*2;
-            g2.drawString(text, x, y);
-            if(commandNum==3){
-                g2.drawString(">", x-gp.tileSize, y);
-            }
-        }
+//        }
+//        else if(titleScreenState == 1){
+//
+//            g2.setColor(Color.white);
+//            g2.setFont(g2.getFont().deriveFont(42F));
+//
+//            String text = "DIFFICULTY!";
+//            int x = getXforCenteredText(text);
+//            int y = gp.tileSize*3;
+//            g2.drawString(text, x, y);
+//
+//            text = "Easy";
+//            x = getXforCenteredText(text);
+//            y+= gp.tileSize*3;
+//            g2.drawString(text, x, y);
+//            if(commandNum==0){
+//                g2.drawString(">", x-gp.tileSize, y);
+//            }
+//
+//            text = "Medium";
+//            x = getXforCenteredText(text);
+//            y+= gp.tileSize;
+//            g2.drawString(text, x, y);
+//            if(commandNum==1){
+//                g2.drawString(">", x-gp.tileSize, y);
+//            }
+//
+//            text = "Difficult";
+//            x = getXforCenteredText(text);
+//            y+= gp.tileSize;
+//            g2.drawString(text, x, y);
+//            if(commandNum==2){
+//                g2.drawString(">", x-gp.tileSize, y);
+//            }
+//
+//            text = "Back";
+//            x = getXforCenteredText(text);
+//            y+= gp.tileSize*2;
+//            g2.drawString(text, x, y);
+//            if(commandNum==3){
+//                g2.drawString(">", x-gp.tileSize, y);
+//            }
+//        }
 
 
 
@@ -306,7 +310,7 @@ public class UI {
     public void drawCharacterScreen(){
 
         //create a frame
-        final int frameX=gp.tileSize;
+        final int frameX=gp.tileSize*2;
         final int frameY=gp.tileSize;
         final int frameWidth=gp.tileSize*5;
         final int frameHeight=gp.tileSize*10;
@@ -412,7 +416,7 @@ public class UI {
     public void drawInventory(){
 
         //FRAME
-        int frameX = gp.tileSize*9;
+        int frameX = gp.tileSize*12;
         int frameY = gp.tileSize;
         int frameWidth = gp.tileSize *6;
         int frameHeight = gp.tileSize*5;
@@ -481,10 +485,64 @@ public class UI {
 
 
          }
-         public int getItemIndexOnSlot(){
-         int itemIndex = slotCol + (slotRow*5);
-         return itemIndex;
-         }
+    public void drawOptionsScreen(){
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(32F));
+
+        //SUB WINDOW
+        int frameX = gp.tileSize*6;
+        int frameY = gp.tileSize;
+        int frameWidth = gp.tileSize*8;
+        int frameHeight = gp.tileSize*10;
+        drawSubWindow(frameX,frameY,frameWidth,frameHeight);
+
+        switch (subState){
+            case 0 : options_top(frameX,frameY); break;
+            case 1 : break;
+            case 2 : break;
+        }
+
+
+    }
+    public void options_top(int frameX, int frameY){
+        int textX;
+        int textY;
+        //TITLE
+        String text = "Options";
+        textX = getXforCenteredText(text);
+        textY = frameY + gp.tileSize;
+        g2.drawString(text , textX ,textY);
+
+        //FULLSCREEN OPTION
+        textX = frameX + gp.tileSize;
+        textY += gp.tileSize*2;
+        g2.drawString("Full Screen",textX,textY);
+
+        //Music
+        textY += gp.tileSize;
+        g2.drawString("Music",textX,textY);
+
+        //SE
+        textY += gp.tileSize;
+        g2.drawString("SE",textX,textY);
+
+        //CONTROL
+        textY += gp.tileSize;
+        g2.drawString("Control",textX,textY);
+
+        //END GAME
+        textY += gp.tileSize;
+        g2.drawString("Quit",textX,textY);
+
+        //BACK
+        textY += gp.tileSize*2;
+        g2.drawString("Back",textX,textY);
+
+    }
+    public int getItemIndexOnSlot(){
+        int itemIndex = slotCol + (slotRow*5);
+        return itemIndex;
+    }
     public void drawSubWindow(int x , int y , int width , int height){
         Color c = new Color(0,0,0,210); //creating a custom dilogue box color
         g2.setColor(c);
@@ -494,10 +552,6 @@ public class UI {
         g2.setColor(c);
         g2.setStroke(new BasicStroke(5));
         g2.drawRoundRect(x+5 , y+5 , width-10,height-10,25,25);
-
-
-
-
     }
     int getXforCenteredText(String text) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
@@ -508,7 +562,7 @@ public class UI {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         int x = tailX-length;
         return x;
-
-}}
+    }
+}
 
 
