@@ -8,7 +8,7 @@ public class Main {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("ON THE TRAIL!");
+        window.setTitle("ISLAND TAILS");
 //        window.setUndecorated(true);
 
         GamePanel gamePanel = new GamePanel();

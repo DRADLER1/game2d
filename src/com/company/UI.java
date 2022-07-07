@@ -192,7 +192,7 @@ public class UI {
 
             //Title name
             g2.setFont(g2.getFont().deriveFont(Font.BOLD,96F));
-            String text = "ON THE TRAIL";
+            String text = "ISLAND TAILS";
             int x = getXforCenteredText(text);
             int y = gp.tileSize*3;
 
